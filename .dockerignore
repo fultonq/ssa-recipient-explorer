@@ -1,0 +1,14 @@
+**/build/
+**/build-*/
+cmake-build-*/
+.idea/
+.vscode/
+.git/
+web/node_modules/
+web/dist/
+web/public/wasm/
+experiments/
+docs/
+tools/
+**/*.pptx
+**/__pycache__/

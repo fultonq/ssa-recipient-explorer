@@ -1,0 +1,24 @@
+{
+  // CMake Tools reads CMakePresets.json (debug / release / asan / engine-only).
+  "cmake.useCMakePresets": "always",
+  "cmake.configureOnOpen": true,
+  "C_Cpp.default.configurationProvider": "ms-vscode.cmake-tools",
+  "C_Cpp.default.cppStandard": "c++23",
+  "files.exclude": { "**/build": true, "**/node_modules": true, "web/dist": true },
+  "search.exclude": { "server/third_party/**": true },
+  "typescript.tsdk": "web/node_modules/typescript/lib",
+  "python.analysis.extraPaths": ["tools"],
+  // SQLTools: browse the database started by `docker compose up` (or a local cluster).
+  "sqltools.connections": [
+    {
+      "name": "SSA (local / compose)",
+      "driver": "PostgreSQL",
+      "server": "localhost",
+      "port": 5432,
+      "database": "ssa",
+      "username": "ssa",
+      "askForPassword": true,
+      "previewLimit": 50
+    }
+  ]
+}

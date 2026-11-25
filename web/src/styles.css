@@ -1,0 +1,95 @@
+/* App layout helpers (theme-independent) ------------------------------------ */
+.results-scroll { max-height: 62vh; overflow: auto; }
+.results-scroll thead th { position: sticky; top: 0; z-index: 1; background: var(--bs-tertiary-bg); }
+th.sortable { cursor: pointer; user-select: none; white-space: nowrap; }
+tbody tr[role='button'] { cursor: pointer; }
+.state-pop { z-index: 1050; }
+.state-list { max-height: 260px; overflow: auto; }
+
+/* Label + count on one line, bar underneath: every bar shares one scale and long counts cannot overflow. */
+.bar-row { display: grid; grid-template-columns: minmax(0, 1fr) auto; column-gap: .75rem; row-gap: .15rem; font-size: .8rem; margin: .5rem 0; }
+.bar-label { grid-column: 1; grid-row: 1; min-width: 0; }
+.bar-n { grid-column: 2; grid-row: 1; text-align: right; white-space: nowrap; }
+.bar-track { grid-column: 1 / -1; grid-row: 2; height: .45rem; background: var(--bs-tertiary-bg); border-radius: 2px; overflow: hidden; }
+.bar-fill { height: 100%; background: var(--bs-primary); }
+.hist-bar { fill: var(--bs-primary); }
+.hist-label { fill: var(--bs-secondary-color); font-size: 9px; }
+.modal-backdrop.show { opacity: .6; }
+
+/* Theme: IBM 3270 phosphor green ------------------------------------------ */
+:root[data-theme='3270'] {
+  --phosphor: #3dff7a;
+  --phosphor-dim: #1fa550;
+  --phosphor-faint: #0f4d26;
+  --crt-bg: #040a05;
+  --crt-panel: #07120a;
+
+  --bs-body-bg: var(--crt-bg);
+  --bs-body-color: var(--phosphor);
+  --bs-emphasis-color: #9dffbc;
+  --bs-secondary-color: var(--phosphor-dim);
+  --bs-secondary-bg: var(--crt-panel);
+  --bs-tertiary-bg: #0a1d10;
+  --bs-border-color: var(--phosphor-faint);
+  --bs-primary: var(--phosphor);
+  --bs-primary-rgb: 61, 255, 122;
+  --bs-link-color: var(--phosphor);
+  --bs-body-font-family: 'IBM Plex Mono', 'IBM 3270', 'Lucida Console', 'Courier New', monospace;
+  --bs-border-radius: 0;
+  --bs-border-radius-sm: 0;
+  --bs-border-radius-lg: 0;
+  text-shadow: 0 0 4px rgba(61, 255, 122, .35);
+}
+:root[data-theme='3270'] body { background-image: repeating-linear-gradient(0deg, rgba(0, 0, 0, .18) 0 1px, transparent 1px 3px); }
+:root[data-theme='3270'] .card,
+:root[data-theme='3270'] .modal-content,
+:root[data-theme='3270'] .navbar.app-nav { background: var(--crt-panel); border-color: var(--phosphor-faint); }
+:root[data-theme='3270'] .card-header,
+:root[data-theme='3270'] .card-footer,
+:root[data-theme='3270'] .modal-header,
+:root[data-theme='3270'] .modal-footer { background: #0a1d10; border-color: var(--phosphor-faint); }
+:root[data-theme='3270'] .form-control,
+:root[data-theme='3270'] .form-select,
+:root[data-theme='3270'] .input-group-text {
+  background-color: #000; color: var(--phosphor); border-color: var(--phosphor-dim);
+}
+:root[data-theme='3270'] .form-control::placeholder { color: var(--phosphor-faint); }
+:root[data-theme='3270'] .form-control:focus,
+:root[data-theme='3270'] .form-select:focus { box-shadow: 0 0 0 .2rem rgba(61, 255, 122, .25); border-color: var(--phosphor); }
+:root[data-theme='3270'] .form-check-input { background-color: #000; border-color: var(--phosphor-dim); }
+:root[data-theme='3270'] .form-check-input:checked { background-color: var(--phosphor); border-color: var(--phosphor); }
+:root[data-theme='3270'] .btn-primary {
+  --bs-btn-bg: var(--phosphor); --bs-btn-border-color: var(--phosphor); --bs-btn-color: #001a08;
+  --bs-btn-hover-bg: #8affb0; --bs-btn-hover-border-color: #8affb0; --bs-btn-hover-color: #001a08;
+  --bs-btn-active-bg: #8affb0; --bs-btn-active-color: #001a08; text-shadow: none;
+}
+:root[data-theme='3270'] .btn-outline-secondary {
+  --bs-btn-color: var(--phosphor); --bs-btn-border-color: var(--phosphor-dim);
+  --bs-btn-hover-bg: var(--phosphor-faint); --bs-btn-hover-border-color: var(--phosphor); --bs-btn-hover-color: #9dffbc;
+  --bs-btn-active-bg: var(--phosphor-faint); --bs-btn-active-color: #9dffbc; --bs-btn-disabled-color: var(--phosphor-faint);
+  --bs-btn-disabled-border-color: var(--phosphor-faint);
+}
+:root[data-theme='3270'] .btn-secondary { --bs-btn-bg: var(--phosphor-faint); --bs-btn-border-color: var(--phosphor-dim); --bs-btn-color: var(--phosphor); --bs-btn-hover-bg: var(--phosphor-dim); --bs-btn-hover-color: #001a08; }
+:root[data-theme='3270'] .table { --bs-table-bg: transparent; --bs-table-color: var(--phosphor); --bs-table-border-color: var(--phosphor-faint); --bs-table-hover-bg: #0f2a17; --bs-table-hover-color: #9dffbc; }
+:root[data-theme='3270'] .table thead th { color: #9dffbc; border-bottom-color: var(--phosphor-dim); }
+:root[data-theme='3270'] .badge { border: 1px solid currentColor; text-shadow: none; }
+:root[data-theme='3270'] .badge.text-bg-secondary { background: transparent !important; color: var(--phosphor-dim) !important; }
+:root[data-theme='3270'] .badge.text-bg-success { background: transparent !important; color: var(--phosphor) !important; }
+:root[data-theme='3270'] .badge.text-bg-info { background: transparent !important; color: #7fe7ff !important; }
+:root[data-theme='3270'] .badge.text-bg-warning { background: transparent !important; color: #ffd24a !important; }
+:root[data-theme='3270'] .badge.text-bg-danger { background: transparent !important; color: #ff6b6b !important; }
+:root[data-theme='3270'] .alert-warning { background: #1a1600; color: #ffd24a; }
+:root[data-theme='3270'] .alert-danger { background: #1f0707; color: #ff8a8a; border-color: #5c1a1a; }
+:root[data-theme='3270'] .btn-close { filter: invert(1) sepia(1) saturate(5) hue-rotate(80deg); }
+:root[data-theme='3270'] .bar-track { background: #0a1d10; border: 1px solid var(--phosphor-faint); }
+:root[data-theme='3270'] .navbar-brand { color: #9dffbc; letter-spacing: .08em; text-transform: uppercase; }
+:root[data-theme='3270'] .spinner-border { color: var(--phosphor); }
+
+@media (prefers-reduced-motion: reduce) {
+  .spinner-border { animation-duration: 3s; }
+}
+
+/* Cross-check line (server mode) */
+.cross-check { padding: .4rem .75rem; border: 1px solid var(--bs-border-color); border-radius: var(--bs-border-radius); background: var(--bs-tertiary-bg); }
+.cross-check-ok { border-color: var(--bs-success-border-subtle); }
+:root[data-theme='3270'] .cross-check-ok { border-color: var(--phosphor-dim); color: var(--phosphor); }

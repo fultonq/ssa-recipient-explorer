@@ -1,0 +1,14 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="ssa_server (PostgreSQL)" type="CMakeRunConfiguration" factoryName="Application" PROGRAM_PARAMS="--port=8080 --static=$PROJECT_DIR$/web/dist" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" WORKING_DIR="file://$PROJECT_DIR$" PASS_PARENT_ENVS_2="true" PROJECT_NAME="Project" TARGET_NAME="ssa_server" CONFIG_NAME="debug" RUN_TARGET_PROJECT_NAME="Project" RUN_TARGET_NAME="ssa_server">
+    <envs>
+      <env name="PGHOST" value="localhost" />
+      <env name="PGPORT" value="5432" />
+      <env name="PGDATABASE" value="ssa" />
+      <env name="PGUSER" value="ssa" />
+      <env name="PGPASSWORD" value="ssa-demo-only" />
+    </envs>
+    <method v="2">
+      <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+    </method>
+  </configuration>
+</component>

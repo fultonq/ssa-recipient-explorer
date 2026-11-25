@@ -1,0 +1,7 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="ssa_server (generated data, no DB)" type="CMakeRunConfiguration" factoryName="Application" PROGRAM_PARAMS="--source=generate --records=1000000 --port=8080 --static=$PROJECT_DIR$/web/dist" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" WORKING_DIR="file://$PROJECT_DIR$" PASS_PARENT_ENVS_2="true" PROJECT_NAME="Project" TARGET_NAME="ssa_server" CONFIG_NAME="debug" RUN_TARGET_PROJECT_NAME="Project" RUN_TARGET_NAME="ssa_server">
+    <method v="2">
+      <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+    </method>
+  </configuration>
+</component>

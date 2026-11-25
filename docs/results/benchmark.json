@@ -1,0 +1,308 @@
+{
+  "generated": "2026-11-19T17:02:34-0500",
+  "records": 5000000,
+  "machine": {
+    "cpus": 2,
+    "platform": "Linux-6.18.44-fc-v653-x86_64-with-glibc2.39",
+    "python": "3.13.18"
+  },
+  "postgres": {
+    "server_version": "16.15 (Ubuntu 16.15-0ubuntu0.24.04.1)",
+    "shared_buffers": "512MB",
+    "work_mem": "64MB",
+    "max_parallel_workers_per_gather": "2",
+    "effective_cache_size": "4GB"
+  },
+  "method": {
+    "reps": 15,
+    "warmup": 2,
+    "order": "alternating",
+    "server_ms": "backend elapsedMs",
+    "client_ms": "end-to-end HTTP"
+  },
+  "cases": [
+    {
+      "case": "Unfiltered, top 50 by id",
+      "kind": "query",
+      "request": {
+        "limit": 50
+      },
+      "matches": 5000000,
+      "engine": {
+        "server_median_ms": 10.75,
+        "server_p95_ms": 12.0,
+        "client_median_ms": 11.68,
+        "client_p95_ms": 12.87
+      },
+      "postgres": {
+        "server_median_ms": 119.74,
+        "server_p95_ms": 129.8,
+        "client_median_ms": 120.73,
+        "client_p95_ms": 130.72
+      },
+      "speedup": 11.1
+    },
+    {
+      "case": "Unfiltered, top 50 by benefit (desc)",
+      "kind": "query",
+      "request": {
+        "sort": "benefit",
+        "desc": true,
+        "limit": 50
+      },
+      "matches": 5000000,
+      "engine": {
+        "server_median_ms": 19.05,
+        "server_p95_ms": 25.11,
+        "client_median_ms": 20.14,
+        "client_p95_ms": 26.23
+      },
+      "postgres": {
+        "server_median_ms": 121.03,
+        "server_p95_ms": 138.22,
+        "client_median_ms": 122.03,
+        "client_p95_ms": 139.44
+      },
+      "speedup": 6.4
+    },
+    {
+      "case": "Unfiltered, top 50 by last name",
+      "kind": "query",
+      "request": {
+        "sort": "lastName",
+        "limit": 50
+      },
+      "matches": 5000000,
+      "engine": {
+        "server_median_ms": 19.88,
+        "server_p95_ms": 20.98,
+        "client_median_ms": 20.88,
+        "client_p95_ms": 21.95
+      },
+      "postgres": {
+        "server_median_ms": 120.03,
+        "server_p95_ms": 135.98,
+        "client_median_ms": 121.05,
+        "client_p95_ms": 137.32
+      },
+      "speedup": 6.0
+    },
+    {
+      "case": "Name search \"smith\"",
+      "kind": "query",
+      "request": {
+        "text": "smith",
+        "limit": 50
+      },
+      "matches": 211701,
+      "engine": {
+        "server_median_ms": 14.52,
+        "server_p95_ms": 14.84,
+        "client_median_ms": 15.46,
+        "client_p95_ms": 15.83
+      },
+      "postgres": {
+        "server_median_ms": 178.01,
+        "server_p95_ms": 186.21,
+        "client_median_ms": 178.89,
+        "client_p95_ms": 187.39
+      },
+      "speedup": 12.3
+    },
+    {
+      "case": "Name \"mar smi\" + MD/VA/DC",
+      "kind": "query",
+      "request": {
+        "text": "mar smi",
+        "states": [
+          "MD",
+          "VA",
+          "DC"
+        ],
+        "limit": 50
+      },
+      "matches": 609,
+      "engine": {
+        "server_median_ms": 7.6,
+        "server_p95_ms": 7.85,
+        "client_median_ms": 8.64,
+        "client_p95_ms": 8.89
+      },
+      "postgres": {
+        "server_median_ms": 109.09,
+        "server_p95_ms": 125.33,
+        "client_median_ms": 110.01,
+        "client_p95_ms": 126.33
+      },
+      "speedup": 14.4
+    },
+    {
+      "case": "Disability, Active, $1.2k-$2k, by benefit",
+      "kind": "query",
+      "request": {
+        "types": [
+          "Disability"
+        ],
+        "statuses": [
+          "Active"
+        ],
+        "minBenefit": 1200,
+        "maxBenefit": 2000,
+        "sort": "benefit",
+        "limit": 50
+      },
+      "matches": 367267,
+      "engine": {
+        "server_median_ms": 19.06,
+        "server_p95_ms": 21.05,
+        "client_median_ms": 20.07,
+        "client_p95_ms": 22.17
+      },
+      "postgres": {
+        "server_median_ms": 181.66,
+        "server_p95_ms": 192.92,
+        "client_median_ms": 182.76,
+        "client_p95_ms": 193.91
+      },
+      "speedup": 9.5
+    },
+    {
+      "case": "Deep page: offset 100,000 by last name",
+      "kind": "query",
+      "request": {
+        "sort": "lastName",
+        "offset": 100000,
+        "limit": 50
+      },
+      "matches": 5000000,
+      "engine": {
+        "server_median_ms": 85.74,
+        "server_p95_ms": 94.53,
+        "client_median_ms": 86.98,
+        "client_p95_ms": 95.54
+      },
+      "postgres": {
+        "server_median_ms": 224.48,
+        "server_p95_ms": 245.11,
+        "client_median_ms": 225.69,
+        "client_p95_ms": 246.07
+      },
+      "speedup": 2.6
+    },
+    {
+      "case": "Exact record id",
+      "kind": "query",
+      "request": {
+        "id": 1234567
+      },
+      "matches": 1,
+      "engine": {
+        "server_median_ms": 0.0,
+        "server_p95_ms": 0.0,
+        "client_median_ms": 0.42,
+        "client_p95_ms": 0.61
+      },
+      "postgres": {
+        "server_median_ms": 0.42,
+        "server_p95_ms": 0.57,
+        "client_median_ms": 0.92,
+        "client_p95_ms": 1.14
+      },
+      "speedup": null
+    },
+    {
+      "case": "Aggregates, unfiltered",
+      "kind": "stats",
+      "request": {},
+      "matches": 5000000,
+      "engine": {
+        "server_median_ms": 19.8,
+        "server_p95_ms": 20.67,
+        "client_median_ms": 20.69,
+        "client_p95_ms": 21.66
+      },
+      "postgres": {
+        "server_median_ms": 1656.63,
+        "server_p95_ms": 1689.91,
+        "client_median_ms": 1657.7,
+        "client_p95_ms": 1690.72
+      },
+      "speedup": 83.7
+    },
+    {
+      "case": "Aggregates, Retirement in TX",
+      "kind": "stats",
+      "request": {
+        "types": [
+          "Retirement"
+        ],
+        "states": [
+          "TX"
+        ]
+      },
+      "matches": 243149,
+      "engine": {
+        "server_median_ms": 12.13,
+        "server_p95_ms": 12.43,
+        "client_median_ms": 13.01,
+        "client_p95_ms": 13.57
+      },
+      "postgres": {
+        "server_median_ms": 196.52,
+        "server_p95_ms": 219.54,
+        "client_median_ms": 197.31,
+        "client_p95_ms": 220.47
+      },
+      "speedup": 16.2
+    },
+    {
+      "case": "Aggregates, \"smith\" + MD/VA/DC + Retirement",
+      "kind": "stats",
+      "request": {
+        "text": "smith",
+        "states": [
+          "MD",
+          "VA",
+          "DC"
+        ],
+        "types": [
+          "Retirement"
+        ]
+      },
+      "matches": 5185,
+      "engine": {
+        "server_median_ms": 8.92,
+        "server_p95_ms": 10.59,
+        "client_median_ms": 9.79,
+        "client_p95_ms": 11.51
+      },
+      "postgres": {
+        "server_median_ms": 56.75,
+        "server_p95_ms": 69.45,
+        "client_median_ms": 57.73,
+        "client_p95_ms": 70.4
+      },
+      "speedup": 6.4
+    }
+  ],
+  "throughput": {
+    "engine": {
+      "clients": 4,
+      "seconds": 10.03,
+      "requests": 906,
+      "errors": 0,
+      "rps": 90.4,
+      "median_ms": 31.0,
+      "p95_ms": 171.6
+    },
+    "postgres": {
+      "clients": 4,
+      "seconds": 12.85,
+      "requests": 66,
+      "errors": 0,
+      "rps": 5.1,
+      "median_ms": 426.8,
+      "p95_ms": 3282.0
+    }
+  }
+}

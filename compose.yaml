@@ -1,0 +1,68 @@
+# SSA Recipient Explorer - full stack:  docker compose up --build   ->  http://localhost:8080
+#   db    PostgreSQL 16 (system of record), port 5432 published on localhost for psql / IDEs
+#   seed  one-shot: loads SSA_RECORDS synthetic rows + indexes (idempotent; skipped once loaded)
+#   app   ssa_server: loads the C++ engine from PostgreSQL, serves the UI and the API
+# Settings come from .env (copy .env.example). ALL DATA IS SYNTHETIC.
+name: ssa-recipient-explorer
+
+x-pg-env: &pg-env
+  PGHOST: db
+  PGPORT: "5432"
+  PGDATABASE: ${POSTGRES_DB:-ssa}
+  PGUSER: ${POSTGRES_USER:-ssa}
+  PGPASSWORD: ${POSTGRES_PASSWORD:-ssa-demo-only}
+
+services:
+  db:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB:-ssa}
+      POSTGRES_USER: ${POSTGRES_USER:-ssa}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-ssa-demo-only}
+    command: >
+      postgres -c shared_buffers=512MB -c work_mem=64MB
+               -c max_parallel_workers_per_gather=2 -c effective_cache_size=2GB
+    shm_size: 1g                      # parallel query workers use /dev/shm
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    ports:
+      - "127.0.0.1:${PG_PORT:-5432}:5432"
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U $${POSTGRES_USER} -d $${POSTGRES_DB}"]
+      interval: 5s
+      timeout: 3s
+      retries: 30
+
+  seed:
+    build: .
+    image: ssa-recipient-explorer:latest
+    entrypoint: ["/opt/ssa/db/seed.sh"]
+    environment:
+      <<: *pg-env
+      SSA_RECORDS: ${SSA_RECORDS:-5000000}
+      SSA_SEED: ${SSA_SEED:-2026}
+    depends_on:
+      db:
+        condition: service_healthy
+    restart: "no"
+
+  app:
+    build: .
+    image: ssa-recipient-explorer:latest
+    environment:
+      <<: *pg-env
+      SSA_SOURCE: postgres
+      SSA_PG_POOL: ${SSA_PG_POOL:-4}
+      SSA_THREADS: ${SSA_THREADS:-8}
+    depends_on:
+      db:
+        condition: service_healthy
+      seed:
+        condition: service_completed_successfully
+    ports:
+      - "${APP_PORT:-8080}:8080"
+    restart: unless-stopped
+    stop_grace_period: 10s
+
+volumes:
+  pgdata:

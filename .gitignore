@@ -1,0 +1,16 @@
+build/
+build-wasm/
+node_modules/
+web/dist/
+web/public/wasm/
+
+# CLion / CMake build output
+cmake-build-*/
+
+# Personal IDE state (shared run configs and code style stay in the repo)
+.idea/workspace.xml
+.idea/shelf/
+.idea/usage.statistics.xml
+
+# Local environment (copy .env.example to .env)
+.env

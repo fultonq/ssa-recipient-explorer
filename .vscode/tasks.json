@@ -1,0 +1,17 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    { "label": "build: debug", "type": "shell", "command": "cmake --preset debug && cmake --build --preset debug -j", "group": { "kind": "build", "isDefault": true }, "problemMatcher": ["$gcc"] },
+    { "label": "build: release", "type": "shell", "command": "cmake --preset release && cmake --build --preset release -j", "group": "build", "problemMatcher": ["$gcc"] },
+    { "label": "test: all (debug)", "type": "shell", "command": "ctest --preset debug", "dependsOn": "build: debug", "group": { "kind": "test", "isDefault": true } },
+    { "label": "test: asan", "type": "shell", "command": "cmake --preset asan && cmake --build --preset asan -j && ctest --preset asan", "group": "test", "problemMatcher": ["$gcc"] },
+    { "label": "docker: start database", "type": "shell", "command": "docker compose up -d db" },
+    { "label": "docker: seed database (compose)", "type": "shell", "command": "docker compose run --rm seed" },
+    { "label": "docker: full stack", "type": "shell", "command": "docker compose up --build", "isBackground": true, "problemMatcher": [] },
+    { "label": "docker: stop", "type": "shell", "command": "docker compose down" },
+    { "label": "web: dev server (proxies /api to :8080)", "type": "shell", "command": "npm run dev", "options": { "cwd": "${workspaceFolder}/web" }, "isBackground": true, "problemMatcher": [] },
+    { "label": "web: build", "type": "shell", "command": "npm ci && npm run build", "options": { "cwd": "${workspaceFolder}/web" } },
+    { "label": "research: cross-check backends", "type": "shell", "command": "python3 tools/compare_backends.py --queries 300" },
+    { "label": "research: benchmark backends", "type": "shell", "command": "python3 tools/bench_backends.py" }
+  ]
+}
